@@ -2,6 +2,7 @@
 #define PIN A3
 #define NUMPIXELS 5
 Adafruit_NeoPixel led(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+int delayvalue = 50;
 bool Anlage_ein = false;
 bool sB10 = false;
 bool sB11 = false;
@@ -59,7 +60,7 @@ void Anlage_ein_check() {
 }
 
 void Programm() {
-
+  delay(delayvalue);
   sB14 = true;  //B14 betätigen Signal Gebläse ok -->Heizung -E1 an
 
   if (E1 == true) {  //Heizung check
@@ -85,14 +86,14 @@ void Programm() {
     countb = 200;
   }
 
-
+  delay(delayvalue);
   sB13 = true;       //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau
   if (M1 == true) {  //M1 check
     M1ok = true;
   } else {
     M1ok = false;
   }
-
+  delay(delayvalue);
   sB12 = true;       //Druck erreicht -B12 --> Ventil -M4 geht an
   if (M4 == true) {  //M4 check
     M4ok = true;
@@ -104,7 +105,7 @@ void Programm() {
   } else {
     M3_1ok = false;
   }
-
+  delay(delayvalue);
   sB15 = true;        //Niedriger Füllstand -B15 betätigen --> -M3 aus
   if (M3 == false) {  //M3 check
     M3_2ok = true;
@@ -180,18 +181,20 @@ void Motor_check() {  //Übersetzung LEDs auf Platine -P10 --> -E1
   }
 }
 void printstatus() {
-  Serial.write("M1");
-  Serial.print(M1ok, DEC);
-  Serial.write("M2");
+  Serial.write("M1=");
+  Serial.print(M1ok);
+  Serial.write("|M2=");
   Serial.print(M2ok);
-  Serial.write("M4");
+  Serial.write("|!M3=");
+  Serial.print(M3_2ok);
+  Serial.write("|M4=");
   Serial.print(M4ok);
-  Serial.write("E1");
+  Serial.write("|E1=");
   Serial.println(E1ok);
   if (M1ok == true && M2ok == true && M3_2ok == true && M4ok == true && E1ok == true) {
-    Serial.print("Prozessabfolge erfolgreich abgeschlossen!       ");
+    Serial.print("Prozessabfolge erfolgreich abgeschlossen!           ");
   } else {
-    Serial.print("Prozessabfolge fehlerhaft abgeschlossen!        ");
+    Serial.print("Prozessabfolge fehlerhaft abgeschlossen!             ");
   }
 }
 void lauflichtm3() {  //Laufbandanimation -M3
