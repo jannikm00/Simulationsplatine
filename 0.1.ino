@@ -69,7 +69,7 @@ void Programm() {
     E1ok = false;
   }
 
-  if (E1ok == true) {  //Heizung RGB
+  if (E1ok == true) {  //Heizung RGB wird von Blau zu rot (fade)
     for (int i = 0; i < 200; i++) {
       if (countr <= 200 && countb >= 0) {
         led.setPixelColor(4, led.Color(countr, 0, countb));
@@ -78,16 +78,16 @@ void Programm() {
         countr++;
         countb--;
       }
-    }
+    }sB13 = true;       //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau
   } else {
-    led.setPixelColor(4, led.Color(0, 0, 255));
+    led.setPixelColor(4, led.Color(0, 0, 255)); //-E1 aus --> Heizung blau
     led.show();
     countr = 0;
     countb = 200;
   }
 
   delay(delayvalue);
-  sB13 = true;       //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau
+  
   if (M1 == true) {  //M1 check
     M1ok = true;
   } else {
