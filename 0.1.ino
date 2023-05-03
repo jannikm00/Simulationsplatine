@@ -90,11 +90,12 @@ void Programm() {
   
   if (M1 == true) {  //M1 check
     M1ok = true;
+    sB12 = true;       //Druck erreicht -B12 --> Ventil -M4 geht an
   } else {
     M1ok = false;
   }
   delay(delayvalue);
-  sB12 = true;       //Druck erreicht -B12 --> Ventil -M4 geht an
+  
   if (M4 == true) {  //M4 check
     M4ok = true;
   } else {
