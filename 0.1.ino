@@ -10,9 +10,9 @@ int countb = 200;           //RGB Heizung wert Blau
 int count = 0;              //Grundstellung nur einmal ausführen variable
 float countfuellstand = 5;  //Position Anfang Füllstand
 float countblink = 0;       //Variable Niedriger Füllstand Blinken
-float countventil = 0;      //Variable Ventil Druck vorhanden
 int countlauflicht = 0;     //Anzahl Durchläufe Lauflicht
 int ventilgruen = 5;        //Dauer bis Ventil Druck hat
+float countventil = 0;      //Variable Ventil Druck vorhanden
 
 ///Programm Variablen///
 bool Anlage_ein = false;
@@ -268,9 +268,11 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
 
 
 
-void fuellstandm4() {                     //Funktion: Füllstand
-  if (M4ok == true && countventil > 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
-    if (countfuellstand < 10) {
+void fuellstandm4() {  //Funktion: Füllstand
+  if (M4ok == true && countventil >= 5) {//Ventil -M4 offen --> Füllstand erhöht sich
+    led.setPixelColor(4, led.Color(0, 0, 0));
+    led.show();  
+    if (countfuellstand <= 10) {
       led.setPixelColor(countfuellstand, led.Color(255, 255, 255));
       led.show();
       countfuellstand = countfuellstand + 0.10;
@@ -296,7 +298,7 @@ void fuellstandm4() {                     //Funktion: Füllstand
 
 void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
   if (M3ok == true) {
-    if (countlauflicht <= 4) {
+    if (countlauflicht <= 3) {
       for (int i = 0; i < 5; i++) {
         led.setPixelColor(i, led.Color(255, 255, 255));
         led.show();
@@ -304,7 +306,7 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
         led.setPixelColor(i, led.Color(0, 0, 0));
         led.show();
         delay(100);
-        if (countfuellstand > 5) {
+        if (countfuellstand > 5.3) {
           countfuellstand = countfuellstand - 0.30;  //0.2 = Schnelligkeit Entleerung
         }
         pegelupdate();
@@ -359,7 +361,7 @@ void ventil() {
 
 
 void blink() {  //Funktion: Blinken bei Füllstand unter 2
-  if (countfuellstand <= 5) {
+  if (countfuellstand <= 5.5) {
     led.setPixelColor(5, led.Color(255, 0, 0));
     led.show();
     countblink = countblink + 0.10;
