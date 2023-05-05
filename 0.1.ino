@@ -128,7 +128,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
       }
     }
 
-    sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau siehe void ventil (), void fuellstandm4 ()
+    sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau siehe void ventilm1 (), void fuellstandm4 ()
     Relais_check();
   } else {
     sB13 = false;
@@ -336,8 +336,8 @@ void pegelupdate() {  //Funktion: Füllstand Pegel senken
 
 
 
-void ventil() {
-  if (M4ok == true) {
+void ventilm1() {
+  if (M1ok == true) {
     if (countventil < 5) {
       countventil = countventil + 0.1;
     }
@@ -408,7 +408,7 @@ void loop() {
     //printstatus();   //Debugging
     fuellstandm4();  //Füllstand Animation
     lauflichtm3();   //Förderschnecke Animation
-    ventil();        // -M4 Druck LED
+    ventilm1();        // -M4 Druck LED
     blink();         //Füllstand blinken
   } else {
     end();
