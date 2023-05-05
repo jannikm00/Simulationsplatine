@@ -56,8 +56,6 @@ int P15 = 11;  // -M3 Input
 
 
 
-
-
 void setup() {
   led.begin();
   Serial.begin(9600);
@@ -130,7 +128,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
       }
     }
 
-    sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau
+    sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau siehe void ventil (), void fuellstandm4 ()
     Relais_check();
   } else {
     sB13 = false;
@@ -288,7 +286,7 @@ void fuellstandm4() {  //Funktion: Füllstand
       }
     }
   }
-  Serial.print("     Füllstand:");
+  Serial.print("  |  Füllstand:");
   Serial.println(countfuellstand);
 }
 
