@@ -266,10 +266,10 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
 
 
 
-void fuellstandm4() {  //Funktion: Füllstand
-  if (M4ok == true && countventil >= 5) {//Ventil -M4 offen --> Füllstand erhöht sich
+void fuellstandm4() {                      //Funktion: Füllstand
+  if (M4ok == true && countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
     led.setPixelColor(4, led.Color(0, 0, 0));
-    led.show();  
+    led.show();
     if (countfuellstand <= 10) {
       led.setPixelColor(countfuellstand, led.Color(255, 255, 255));
       led.show();
@@ -287,7 +287,7 @@ void fuellstandm4() {  //Funktion: Füllstand
     }
   }
   Serial.print("  |  Füllstand:");
-  Serial.println(countfuellstand);
+  Serial.println(countfuellstand - 5);
 }
 
 
