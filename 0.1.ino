@@ -47,7 +47,7 @@ int Q5 = 6;  // -B14 Output
 int Q6 = 7;  // -B15 Output
 
 //Motoren Input Pins
-int P10 = 12;  // -E1 Input
+int P10 = 12;  // -E1 Input m
 int P11 = 8;   // -M1 Input
 int P12 = 9;   // -M2 Input
 int P14 = 10;  // -M4 Input
@@ -141,10 +141,11 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   if (M1 == true) {  //M1 check
     M1ok = true;     //Debugging
     if (sB12 == false) {
-      delay(1000);  //Delay Druckaufbau
     }
-    sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
-    Relais_check();
+    if (countventil >= 5) {
+      sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
+      Relais_check();
+    }
   } else {
     sB12 = false;
     Relais_check();
@@ -304,7 +305,7 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
         led.setPixelColor(i, led.Color(0, 0, 0));
         led.show();
         delay(100);
-        if (countfuellstand > 5.3) {
+        if  n(countfuellstand > 5.3) {
           countfuellstand = countfuellstand - 0.30;  //0.2 = Schnelligkeit Entleerung
         }
         pegelupdate();
@@ -408,7 +409,7 @@ void loop() {
     //printstatus();   //Debugging
     fuellstandm4();  //Füllstand Animation
     lauflichtm3();   //Förderschnecke Animation
-    ventilm1();        // -M4 Druck LED
+    ventilm1();      // -M4 Druck LED
     blink();         //Füllstand blinken
   } else {
     end();
