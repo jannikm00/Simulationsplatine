@@ -47,7 +47,7 @@ int Q5 = 6;  // -B14 Output
 int Q6 = 7;  // -B15 Output
 
 //Motoren Input Pins
-int P10 = 12;  // -E1 Input m
+int P10 = 12;  // -E1 Input
 int P11 = 8;   // -M1 Input
 int P12 = 9;   // -M2 Input
 int P14 = 10;  // -M4 Input
@@ -90,7 +90,7 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
   } else {  //Ist -M2 aus --> Simulation zurücksetzen und auf -M2 an warten
     Anlage_ein = false;
     M2ok = false;
-    for (int i = 0; i <= 11; i++) {  //LEDs aus wenn Anlage aus
+    for (int i = 0; i <= 12; i++) {  //LEDs aus wenn Anlage aus
       led.setPixelColor(i, led.Color(0, 0, 0));
     }
     led.show();
@@ -130,7 +130,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
 
     sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau siehe void ventilm1 (), void fuellstandm4 ()
     Relais_check();
-  } else {
+  } else if (Anlage_ein == true) {
     sB13 = false;
     led.setPixelColor(11, led.Color(0, 0, 255));  //-E1 aus --> Heizung blau
     led.show();
@@ -305,10 +305,19 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
         led.setPixelColor(i, led.Color(0, 0, 0));
         led.show();
         delay(100);
-        if  n(countfuellstand > 5.3) {
+        if (countfuellstand > 5.3) {
           countfuellstand = countfuellstand - 0.30;  //0.2 = Schnelligkeit Entleerung
         }
         pegelupdate();
+        if (countfuellstand >= 8) {
+          sB11 = true;   //Füllstand hoch
+          sB15 = false;  //"
+          Relais_check();
+        } else if (countfuellstand <= 6) {
+          sB11 = false;  //Füllstand niedrig
+          sB15 = true;   //"
+          Relais_check();
+        }
       }
       countlauflicht++;
     }
