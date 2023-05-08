@@ -268,7 +268,7 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
 
 
 void fuellstandm4() {                      //Funktion: Füllstand
-  if (countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
+  if (M4ok == true) {  //Ventil -M4 offen --> Füllstand erhöht sich
     led.setPixelColor(4, led.Color(0, 0, 0));
     led.show();
     if (countfuellstand <= 10) {
