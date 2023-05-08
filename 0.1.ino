@@ -84,12 +84,14 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
   if (M2 == true) {        //Gebläse -M2 geht an mit anschalten der anlage. M2 check
     Anlage_ein = true;
     M2ok = true;
+    analogWrite(A2, 1023); //Motor -M1
     if (count == 0) {
       Grundstellung();
     }
   } else {  //Ist -M2 aus --> Simulation zurücksetzen und auf -M2 an warten
     Anlage_ein = false;
     M2ok = false;
+    analogWrite(A2, 0);
     for (int i = 0; i <= 12; i++) {  //LEDs aus wenn Anlage aus
       led.setPixelColor(i, led.Color(0, 0, 0));
     }
