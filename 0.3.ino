@@ -176,7 +176,6 @@ void Bypass() {  //Programm überspringen wenn Programmbypass true ist
 
 
 
-
 void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
   if (M2 == true) {        //Gebläse -M2 geht an mit anschalten der anlage. M2 check
     Anlage_ein = true;
@@ -201,6 +200,52 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
   M3ok = false;
   M4ok = false;
   E1ok = false;
+}
+
+
+
+
+
+void pegelupdate() {  //Funktion: Füllstand Pegel senken
+  for (int i = 5; i < 10; i++) {
+    led.setPixelColor(i, led.Color(0, 0, 0));
+  }
+  led.show();
+  for (int i = 5; i < countfuellstand; i++) {
+    led.setPixelColor(i, led.Color(255, 255, 255));
+  }
+  led.show();
+}
+
+
+
+
+
+void end() {  //Funktion: Reset bei Anlage aus
+  if (Anlage_ein == false) {
+    sB10 = false;
+    sB11 = false;
+    sB12 = false;
+    sB13 = false;
+    sB14 = false;
+    sB15 = false;
+    M1 = false;
+    M2 = false;
+    M3 = false;
+    M4 = false;
+    E1 = false;
+    Relais_check();                //Relais zurücksetzen
+    Serial.println("Anlage aus");  //Debugging
+    Programm();                    //Neustart wenn Anlage_ein == true
+    count = 0;                     //void Grundstellung () darf einmal laufen
+    countvorrat = 0;               //Milchvorrat wieder voll
+    Motor_check();
+    if (M1 == true) {  //M1 Simulation
+      analogWrite(SimM1, 1023);
+    } else {
+      analogWrite(SimM1, 0);
+    }
+  }
 }
 
 
@@ -360,7 +405,6 @@ void Motor_check() {  //Funktion: Übersetzung LEDs auf Platine -P10 --> -E1 ...
     M3L = false;
   }
 }
-}
 
 
 
@@ -458,21 +502,6 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
 
 
 
-void pegelupdate() {  //Funktion: Füllstand Pegel senken
-  for (int i = 5; i < 10; i++) {
-    led.setPixelColor(i, led.Color(0, 0, 0));
-  }
-  led.show();
-  for (int i = 5; i < countfuellstand; i++) {
-    led.setPixelColor(i, led.Color(255, 255, 255));
-  }
-  led.show();
-}
-
-
-
-
-
 void ventilm1() {  //Funktion: Druckaufbau bei M1 an
   if (M1 == true) {
 
@@ -494,6 +523,10 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
     Relais_check();
   }
 }
+
+
+
+
 
 void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
   if (M4 == true && countventil >= 5) {
@@ -537,45 +570,16 @@ void blink() {  //Funktion: Blinken bei Füllstand unter 2
 
 
 
+
 void lauflichtm3L() {
   if (M3L == true) {
-    for (int i = 5; i >= 0; i--) {
+    for (int i = 4; i >= 0; i--) {
       led.setPixelColor(i, led.Color(255, 255, 255));
       led.show();
-      delay(100);
+      delay(50);
       led.setPixelColor(i, led.Color(0, 0, 0));
       led.show();
-      delay(100);
-    }
-  }
-}
-
-
-
-
-void end() {  //Funktion: Reset bei Anlage aus
-  if (Anlage_ein == false) {
-    sB10 = false;
-    sB11 = false;
-    sB12 = false;
-    sB13 = false;
-    sB14 = false;
-    sB15 = false;
-    M1 = false;
-    M2 = false;
-    M3 = false;
-    M4 = false;
-    E1 = false;
-    Relais_check();                //Relais zurücksetzen
-    Serial.println("Anlage aus");  //Debugging
-    Programm();                    //Neustart wenn Anlage_ein == true
-    count = 0;                     //void Grundstellung () darf einmal laufen
-    countvorrat = 0;               //Milchvorrat wieder voll
-    Motor_check();
-    if (M1 == true) {  //M1 Simulation
-      analogWrite(SimM1, 1023);
-    } else {
-      analogWrite(SimM1, 0);
+      delay(50);
     }
   }
 }
