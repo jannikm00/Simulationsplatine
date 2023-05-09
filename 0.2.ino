@@ -100,13 +100,15 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
     Anlage_ein = true;
     M2ok = true;
     analogWrite(SimM2, 1023);  //Motor -M2
+
     if (count == 0) {
       Grundstellung();
     }
   } else {  //Ist -M2 aus --> Simulation zurücksetzen und auf -M2 an warten
     Anlage_ein = false;
     M2ok = false;
-    analogWrite(SimM2, 0);           //Motor -M2
+    analogWrite(SimM2, 0);  //Motor -M2
+
     for (int i = 0; i <= 12; i++) {  //LEDs aus wenn Anlage aus
       led.setPixelColor(i, led.Color(0, 0, 0));
     }
@@ -131,8 +133,11 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   } else {
     E1ok = false;  //Debugging
   }
+
   if (E1ok == true) {  //Heizung RGB wird von Blau zu rot (fade)
+
     for (int i = 0; i < 200; i++) {
+
       if (countr <= 200 && countb >= 0) {
         led.setPixelColor(11, led.Color(countr, 0, countb));
         led.show();
@@ -150,10 +155,13 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     countr = 0;
     countb = 200;
   }
+
   if (M1 == true) {  //M1 check
     M1ok = true;     //Debugging
     analogWrite(SimM1, 1023);
+
     if (sB12 == false) {
+
       if (countventil >= 5) {
         sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
         Relais_check();
@@ -165,18 +173,14 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     M1ok = false;  //Debugging
     analogWrite(SimM1, 0);
   }
-  if (M4 == true) {  //M1 check
+
+  if (M4 == true) {  //M4 check
     M4ok = true;     //Debugging
     if (sB10 == true) {
       if (countvorrat >= 5) {
         sB10 = false;  //Milchvorrat leer
-        Relais_check();
       }
     }
-  } else {
-    sB12 = false;
-    Relais_check();
-    //M1ok = false;  //Debugging
   }
 
   if (M3 == true) {  //Nach betätigen von -S3 --> Laufband -M3 geht an
@@ -244,21 +248,25 @@ void Motor_check() {  //Funktion: Übersetzung LEDs auf Platine -P10 --> -E1 ...
   } else {
     E1 = false;
   }
+
   if (digitalRead(P11) == HIGH) {
     M1 = true;
   } else {
     M1 = false;
   }
+
   if (digitalRead(P12) == HIGH) {
     M2 = true;
   } else {
     M2 = false;
   }
+
   if (digitalRead(P15) == HIGH) {
     M3 = true;
   } else {
     M3 = false;
   }
+
   if (digitalRead(P14) == HIGH) {
     M4 = true;
   } else {
@@ -281,6 +289,7 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   Serial.print(M4ok);
   Serial.write("|E1=");
   Serial.println(E1ok);
+
   if (countfuellstand == 0) {
     Serial.print("Prozessabfolge mit entleertem Füllturm abgeschlossen!           ");
   } else {
@@ -296,11 +305,13 @@ void fuellstandm4() {                                         //Funktion: Fülls
   if (M4ok == true && countvorrat < 5 && countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
     led.setPixelColor(4, led.Color(0, 0, 0));
     led.show();
+
     if (countfuellstand <= 10) {
       led.setPixelColor(countfuellstand, led.Color(255, 255, 255));
       led.show();
       countfuellstand = countfuellstand + 0.10;
       delay(50);
+
       if (countfuellstand >= 8) {
         sB11 = true;   //Füllstand hoch
         sB15 = false;  //"
@@ -322,7 +333,9 @@ void fuellstandm4() {                                         //Funktion: Fülls
 
 void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
   if (M3ok == true) {
+
     if (countlauflicht <= 3) {
+
       for (int i = 0; i < 5; i++) {
         led.setPixelColor(i, led.Color(255, 255, 255));
         led.show();
@@ -330,10 +343,12 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
         led.setPixelColor(i, led.Color(0, 0, 0));
         led.show();
         delay(100);
+
         if (countfuellstand > 5.3) {
           countfuellstand = countfuellstand - 0.30;  //0.2 = Schnelligkeit Entleerung
         }
         pegelupdate();
+
         if (countfuellstand >= 8) {
           sB11 = true;   //Füllstand hoch
           sB15 = false;  //"
@@ -360,7 +375,9 @@ void pegelupdate() {  //Funktion: Füllstand Pegel senken
   for (int i = 5; i < 10; i++) {
     led.setPixelColor(i, led.Color(0, 0, 0));
   }
+
   led.show();
+
   for (int i = 5; i < countfuellstand - 1; i++) {
     led.setPixelColor(i, led.Color(255, 255, 255));
   }
@@ -373,17 +390,23 @@ void pegelupdate() {  //Funktion: Füllstand Pegel senken
 
 void ventilm1() {  //Funktion: Druckaufbau bei M1 an
   if (M1ok == true) {
+
     if (countventil < 5) {
       countventil = countventil + 0.2;
     }
+
     if (countventil > ventilgruen) {
       led.setPixelColor(10, led.Color(0, 255, 0));
       led.show();
+      sB12 = true;
+      Relais_check();
     }
   } else {
     led.setPixelColor(10, led.Color(255, 0, 0));
     led.show();
     countventil = 0;
+    sB12 = false;
+    Relais_check();
   }
   Serial.write("Ventil:");
   Serial.print(countventil);
@@ -395,10 +418,12 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
 
 void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
   if (M4ok == true && countventil >= 5) {
+
     if (countvorrat < 5) {
       countvorrat = countvorrat + 0.12;
     }
   }
+
   if (countvorrat > 4.80) {
     sB10 = false;
     Relais_check();
@@ -419,6 +444,7 @@ void blink() {  //Funktion: Blinken bei Füllstand unter 2
     led.setPixelColor(5, led.Color(255, 0, 0));
     led.show();
     countblink = countblink + 0.10;
+
     if (countblink > 0.5) {
       led.setPixelColor(5, led.Color(100, 0, 0));
       led.show();
@@ -450,6 +476,7 @@ void end() {  //Funktion: Reset bei Anlage aus
     count = 0;                     //void Grundstellung () darf einmal laufen
     countvorrat = 0;               //Milchvorrat wieder voll
     Motor_check();
+
     if (M1 == true) {  //M1 Simulation
       analogWrite(SimM1, 1023);
     } else {
@@ -466,6 +493,7 @@ void loop() {
   if (Programmbypass == false) {
     Motor_check();       //Motoren Abfrage für Anlage_ein
     Anlage_ein_check();  //Check ob -M2 an ist
+
     if (Anlage_ein == true) {
       Motor_check();  //Motorenabfrage für Hauptprogramm
       Programm();     //Hauptprogramm
