@@ -4,15 +4,17 @@
 Adafruit_NeoPixel led(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 ///Anpassbare Werte///
-int delayvalue = 100;       //Globaler Delay Wert
-int countr = 0;             //RGB Heizung wert Rot
-int countb = 200;           //RGB Heizung wert Blau
-int count = 0;              //Grundstellung nur einmal ausführen variable
-float countfuellstand = 5;  //Position Anfang Füllstand
-float countblink = 0;       //Variable Niedriger Füllstand Blinken
-int countlauflicht = 0;     //Anzahl Durchläufe Lauflicht
-int ventilgruen = 5;        //Dauer bis Ventil Druck hat
-float countventil = 0;      //Variable Ventil Druck vorhanden
+int delayvalue = 100;         //Globaler Delay Wert
+int countr = 0;               //RGB Heizung wert Rot
+int countb = 200;             //RGB Heizung wert Blau
+int count = 0;                //Grundstellung nur einmal ausführen variable
+float countfuellstand = 5;    //Position Anfang Füllstand
+float countblink = 0;         //Variable Niedriger Füllstand Blinken
+int countlauflicht = 0;       //Anzahl Durchläufe Lauflicht
+int ventilgruen = 5;          //Dauer bis Ventil Druck hat
+float countventil = 0;        //Variable Ventil Druck vorhanden
+bool Programmbypass = false;  //Programm überspringen Sensorstellung in void Bypass () festlegen
+float countvorrat = 0;        //Variable Milchvorrat
 
 ///Programm Variablen///
 bool Anlage_ein = false;
@@ -23,6 +25,8 @@ bool sB12 = false;  //"
 bool sB13 = false;  //"
 bool sB14 = false;  //"
 bool sB15 = false;  //"
+bool sB16 = false;  //"
+
 ///Abgefragte Motoren Status Variablen
 bool M1 = false;  //Motoren Abfrage Variable NICHT VERÄNDERN!
 bool M2 = false;  //"
@@ -38,15 +42,18 @@ bool M4ok;
 bool E1ok;
 bool Anlageok;
 
-///Relais Output Pins
-int Q1 = 2;  // -B10 Output
-int Q2 = 3;  // -B11 Output
-int Q3 = 4;  // -B12 Output
-int Q4 = 5;  // -B13 Output
-int Q5 = 6;  // -B14 Output
-int Q6 = 7;  // -B15 Output
+///Output Pins
+int Q1 = 2;      // -B10 Output (NO)
+int Q2 = 3;      // -B11 Output (NO)
+int Q3 = 4;      // -B12 Output (NO)
+int Q4 = 5;      // -B13 Output (NO)
+int Q5 = 6;      // -B14 Output (NO)
+int Q6 = 7;      // -B15 Output (NO)
+int Q7 = A1;     // -B16 Output (NC)
+int SimM1 = A2;  // -M1 Simulierter Motor Output
+int SimM2 = A0;  // -M2 Simulierter Motor Output
 
-//Motoren Input Pins
+//Input Pins
 int P10 = 12;  // -E1 Input
 int P11 = 8;   // -M1 Input
 int P12 = 9;   // -M2 Input
@@ -67,15 +74,23 @@ void setup() {
 
 void Grundstellung() {  //Grundstellung Simulierte Sensoren
   sB10 = true;          //Milch vorhanden
-  sB11 = false;
-  sB12 = false;
-  sB13 = false;
-  sB14 = false;
-  sB15 = true;
+  sB11 = false;         //Füllstand hoch
+  sB12 = false;         //Druck vorhanden
+  sB13 = false;         //Temperatur ok
+  sB14 = false;         //Gebläse ok
+  sB15 = true;          //Füllstand niedrig
+  sB16 = false;         //CO-Meldung
   Relais_check();
   count++;
+  pegelupdate();  //Füllstand Pegel Update
 }
 
+
+
+
+
+void Bypass() {  //Programm überspringen wenn Programmbypass true ist
+}
 
 
 
@@ -84,14 +99,14 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
   if (M2 == true) {        //Gebläse -M2 geht an mit anschalten der anlage. M2 check
     Anlage_ein = true;
     M2ok = true;
-    analogWrite(A2, 1023); //Motor -M1
+    analogWrite(SimM2, 1023);  //Motor -M2
     if (count == 0) {
       Grundstellung();
     }
   } else {  //Ist -M2 aus --> Simulation zurücksetzen und auf -M2 an warten
     Anlage_ein = false;
     M2ok = false;
-    analogWrite(A2, 0);
+    analogWrite(SimM2, 0);           //Motor -M2
     for (int i = 0; i <= 12; i++) {  //LEDs aus wenn Anlage aus
       led.setPixelColor(i, led.Color(0, 0, 0));
     }
@@ -110,15 +125,13 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
 
 
 void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in void fuellstandm4 ()
-
-  sB14 = true;  //B14 betätigen Signal Gebläse ok -->Heizung -E1 an
+  sB14 = true;     //B14 betätigen Signal Gebläse ok -->Heizung -E1 an
   Relais_check();
   if (E1 == true) {  //Heizung -E1 check
     E1ok = true;     //Debugging
   } else {
     E1ok = false;  //Debugging
   }
-
   if (E1ok == true) {  //Heizung RGB wird von Blau zu rot (fade)
     for (int i = 0; i < 200; i++) {
       if (countr <= 200 && countb >= 0) {
@@ -129,7 +142,6 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
         countb--;
       }
     }
-
     sB13 = true;  //Temperatur erreicht -B13 -->nach betätigen von -S2 --> -M1 geht an Druckaufbau siehe void ventilm1 (), void fuellstandm4 ()
     Relais_check();
   } else if (Anlage_ein == true) {
@@ -139,25 +151,31 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     countr = 0;
     countb = 200;
   }
-
   if (M1 == true) {  //M1 check
     M1ok = true;     //Debugging
     if (sB12 == false) {
-    }
-    if (countventil >= 5) {
-      sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
-      Relais_check();
+      if (countventil >= 5) {
+        sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
+        Relais_check();
+      }
     }
   } else {
     sB12 = false;
     Relais_check();
     M1ok = false;  //Debugging
   }
-
-  if (M4 == true) {  //M4 check
+  if (M4 == true) {  //M1 check
     M4ok = true;     //Debugging
+    if (sB10 == true) {
+      if (countvorrat >= 5) {
+        sB10 = false;  //Milchvorrat leer
+        Relais_check();
+      }
+    }
   } else {
-    M4ok = false;  //Debugging
+    sB12 = false;
+    Relais_check();
+    //M1ok = false;  //Debugging
   }
 
   if (M3 == true) {  //Nach betätigen von -S3 --> Laufband -M3 geht an
@@ -208,6 +226,11 @@ void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais Q1, aktu
   } else {
     analogWrite(Q6, 1023);
   }
+  if (sB16 == false) {
+    analogWrite(Q7, 0);
+  } else {
+    analogWrite(Q7, 1023);
+  }
 }
 
 
@@ -215,7 +238,6 @@ void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais Q1, aktu
 
 
 void Motor_check() {  //Funktion: Übersetzung LEDs auf Platine -P10 --> -E1 ...usw
-
   if (digitalRead(P10) == HIGH) {
     E1 = true;
   } else {
@@ -269,8 +291,8 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
 
 
 
-void fuellstandm4() {                      //Funktion: Füllstand
-  if (M4ok == true) {  //Ventil -M4 offen --> Füllstand erhöht sich
+void fuellstandm4() {                                           //Funktion: Füllstand
+  if (M4ok == true && countvorrat < 4.8 && countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
     led.setPixelColor(4, led.Color(0, 0, 0));
     led.show();
     if (countfuellstand <= 10) {
@@ -338,7 +360,7 @@ void pegelupdate() {  //Funktion: Füllstand Pegel senken
     led.setPixelColor(i, led.Color(0, 0, 0));
   }
   led.show();
-  for (int i = 5; i < countfuellstand; i++) {
+  for (int i = 5; i < countfuellstand - 1; i++) {
     led.setPixelColor(i, led.Color(255, 255, 255));
   }
   led.show();
@@ -348,10 +370,10 @@ void pegelupdate() {  //Funktion: Füllstand Pegel senken
 
 
 
-void ventilm1() {
+void ventilm1() {  //Funktion: Druckaufbau bei M1 an
   if (M1ok == true) {
     if (countventil < 5) {
-      countventil = countventil + 0.1;
+      countventil = countventil + 0.2;
     }
     if (countventil > ventilgruen) {
       led.setPixelColor(10, led.Color(0, 255, 0));
@@ -364,6 +386,27 @@ void ventilm1() {
   }
   Serial.write("Ventil:");
   Serial.print(countventil);
+}
+
+
+
+
+
+void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
+  if (M4ok == true && countventil >=5) {
+    if (countvorrat < 5) {
+      countvorrat = countvorrat + 0.12;
+    }
+  }
+  if (countvorrat > 4.80) {
+    sB10 = false;
+    Relais_check();
+  } else {
+    sB10 = true;
+    Relais_check();
+  }
+  Serial.write("|     Vorrat:");
+  Serial.print(countvorrat);
 }
 
 
@@ -404,6 +447,7 @@ void end() {  //Funktion: Reset bei Anlage aus
     Serial.println("Anlage aus");  //Debugging
     Programm();                    //Neustart wenn Anlage_ein == true
     count = 0;                     //void Grundstellung () darf einmal laufen
+    countvorrat = 0;               //Milchvorrat wieder voll
   }
 }
 
@@ -412,17 +456,22 @@ void end() {  //Funktion: Reset bei Anlage aus
 
 
 void loop() {
-  Motor_check();       //Motoren Abfrage für Anlage_ein
-  Anlage_ein_check();  //Check ob -M2 an ist
-  if (Anlage_ein == true) {
-    Motor_check();  //Motorenabfrage für Hauptprogramm
-    Programm();     //Hauptprogramm
-    //printstatus();   //Debugging
-    fuellstandm4();  //Füllstand Animation
-    lauflichtm3();   //Förderschnecke Animation
-    ventilm1();      // -M4 Druck LED
-    blink();         //Füllstand blinken
-  } else {
-    end();
-  }  //Reset
+  if (Programmbypass == false) {
+    Motor_check();       //Motoren Abfrage für Anlage_ein
+    Anlage_ein_check();  //Check ob -M2 an ist
+    if (Anlage_ein == true) {
+      Motor_check();  //Motorenabfrage für Hauptprogramm
+      Programm();     //Hauptprogramm
+      //printstatus();   //Debugging
+      fuellstandm4();  //Füllstand Animation
+      lauflichtm3();   //Förderschnecke Animation
+      ventilm1();      // -M4 Druck LED
+      blink();         //Füllstand blinken
+      vorrat();        //Milchvorrat
+    } else {
+      end();  //Reset
+    }
+  } else if (Programmbypass == true) {
+    Bypass();
+  }
 }
