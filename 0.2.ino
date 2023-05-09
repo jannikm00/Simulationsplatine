@@ -114,7 +114,6 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
     end();
     Relais_check();
   }
-  M1ok = false;
   M3ok = false;
   M4ok = false;
   E1ok = false;
@@ -153,6 +152,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   }
   if (M1 == true) {  //M1 check
     M1ok = true;     //Debugging
+    analogWrite(SimM1, 1023);
     if (sB12 == false) {
       if (countventil >= 5) {
         sB12 = true;  //Druck erreicht -B12 --> Ventil -M4 geht an
@@ -163,6 +163,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     sB12 = false;
     Relais_check();
     M1ok = false;  //Debugging
+    analogWrite(SimM1, 0);
   }
   if (M4 == true) {  //M1 check
     M4ok = true;     //Debugging
@@ -291,8 +292,8 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
 
 
 
-void fuellstandm4() {                                           //Funktion: Füllstand
-  if (M4ok == true && countvorrat < 4.8 && countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
+void fuellstandm4() {                                         //Funktion: Füllstand
+  if (M4ok == true && countvorrat < 5 && countventil >= 5) {  //Ventil -M4 offen --> Füllstand erhöht sich
     led.setPixelColor(4, led.Color(0, 0, 0));
     led.show();
     if (countfuellstand <= 10) {
@@ -393,7 +394,7 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
 
 
 void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
-  if (M4ok == true && countventil >=5) {
+  if (M4ok == true && countventil >= 5) {
     if (countvorrat < 5) {
       countvorrat = countvorrat + 0.12;
     }
@@ -448,6 +449,12 @@ void end() {  //Funktion: Reset bei Anlage aus
     Programm();                    //Neustart wenn Anlage_ein == true
     count = 0;                     //void Grundstellung () darf einmal laufen
     countvorrat = 0;               //Milchvorrat wieder voll
+    Motor_check();
+    if (M1 == true) {  //M1 Simulation
+      analogWrite(SimM1, 1023);
+    } else {
+      analogWrite(SimM1, 0);
+    }
   }
 }
 
