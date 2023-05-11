@@ -70,6 +70,7 @@ bool E1 = false;   //"
 bool M1ok;
 bool M2ok;
 bool M3ok;
+bool M3Lok;
 bool M4ok;
 bool E1ok;
 bool Anlageok;
@@ -247,6 +248,7 @@ void Anlage_ein_check() {  //Ist -M2 an --> Simulation starten
     Relais_check();
   }
   M3ok = false;
+  M3Lok = false;
   M4ok = false;
   E1ok = false;
 }
@@ -282,6 +284,7 @@ void end() {  //Funktion: Reset bei Anlage aus
     M1 = false;
     M2 = false;
     M3 = false;
+    M3L = false;
     M4 = false;
     E1 = false;
 
@@ -372,7 +375,12 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   if (M3 == true) {  //Nach betätigen von -S3 --> Laufband -M3 geht an
     M3ok = true;
     //Niedriger Füllstand -B15 betätigen --> -M3 aus siehe void lauflichtm3 ()//
+  } else {
+    M3ok = false;
+  }
 
+  if (M3L == true) {
+    M3Lok = true;
   } else {
     M3ok = false;
   }
@@ -399,7 +407,7 @@ void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais Q1, aktu
 
   if (sB12 == false) {
     analogWrite(Q3, 0);
-
+  
   } else {
     analogWrite(Q3, 1023);
   }
@@ -490,6 +498,8 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   Serial.print(M2ok);
   Serial.write("|M3=");
   Serial.print(M3ok);
+  Serial.write("|M3L=");
+  Serial.print(M3Lok);
   Serial.write("|M4=");
   Serial.print(M4ok);
   Serial.write("|E1=");
