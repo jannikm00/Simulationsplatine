@@ -4,17 +4,17 @@
 Adafruit_NeoPixel led(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 ///Anpassbare Werte///
-int delayvalue = 100;         //Globaler Delay Wert
-int countr = 0;               //RGB Heizung wert Rot
-int countb = 200;             //RGB Heizung wert Blau
-int count = 0;                //Grundstellung nur einmal ausführen variable
-float countfuellstand = 5;    //Position Anfang Füllstand
-float countblink = 0;         //Variable Niedriger Füllstand Blinken
-int countlauflicht = 0;       //Anzahl Durchläufe Lauflicht
-int ventilgruen = 5;          //Dauer bis Ventil Druck hat
-float countventil = 0;        //Variable Ventil Druck vorhanden
-bool Programmbypass;  //Programm überspringen Sensorstellung in void Bypass () festlegen
-float countvorrat = 0;        //Variable Milchvorrat
+int delayvalue = 100;       //Globaler Delay Wert
+int countr = 0;             //RGB Heizung wert Rot
+int countb = 200;           //RGB Heizung wert Blau
+int count = 0;              //Grundstellung nur einmal ausführen variable
+float countfuellstand = 5;  //Position Anfang Füllstand
+float countblink = 0;       //Variable Niedriger Füllstand Blinken
+int countlauflicht = 0;     //Anzahl Durchläufe Lauflicht
+int ventilgruen = 5;        //Dauer bis Ventil Druck hat
+float countventil = 0;      //Variable Ventil Druck vorhanden
+bool Programmbypass;        //Programm überspringen Sensorstellung in void Bypass () festlegen
+float countvorrat = 0;      //Variable Milchvorrat
 
 ///Programm Variablen///
 bool Anlage_ein = false;
@@ -55,13 +55,13 @@ int SimM1 = A2;  // -M1 Simulierter Motor Output
 int SimM2 = A0;  // -M2 Simulierter Motor Output
 
 //Input Pins
-int P10 = 12;  // -E1 Input
-int P11 = 8;   // -M1 Input
-int P12 = 9;   // -M2 Input
-int P13 = A4;  // -M3 Input Linkslauf
-int P14 = 10;  // -M4 Input
-int P15 = 11;  // -M3 Input
-int bypass = A5; //Bypass schalter
+int P10 = 12;     // -E1 Input
+int P11 = 8;      // -M1 Input
+int P12 = 9;      // -M2 Input
+int P13 = A4;     // -M3 Input Linkslauf
+int P14 = 10;     // -M4 Input
+int P15 = 11;     // -M3 Input
+int bypass = A5;  //Bypass schalter
 
 
 
@@ -82,7 +82,7 @@ void Grundstellung() {  //Grundstellung Simulierte Sensoren
   sB12 = false;         //Druck vorhanden
   sB13 = false;         //Temperatur ok
   sB14 = false;         //Gebläse ok
-  sB15 = true;          //Füllstand niedrig
+  sB15 = false;          //Füllstand niedrig
   sB16 = false;         //CO-Meldung
   Relais_check();
   count++;
@@ -264,10 +264,10 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   Relais_check();
 
   if (E1 == true) {  //Heizung -E1 check
-    E1ok = true;     
+    E1ok = true;
 
   } else {
-    E1ok = false;  
+    E1ok = false;
   }
 
   if (E1ok == true) {  //Heizung RGB wird von Blau zu rot (fade)
@@ -294,7 +294,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   }
 
   if (M1 == true) {  //M1 check
-    M1ok = true;     
+    M1ok = true;
     analogWrite(SimM1, 1023);
 
     if (sB12 == false) {
@@ -308,13 +308,13 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   } else {
     //sB12 = false;
     Relais_check();
-    M1ok = false;  
+    M1ok = false;
     analogWrite(SimM1, 0);
   }
 
 
   if (M4 == true) {  //M4 check
-    M4ok = true;     
+    M4ok = true;
     /*if (sB10 == true) {
       if (countvorrat >= 5) {
         sB10 = false;  //Milchvorrat leer
@@ -323,11 +323,11 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   }
 
   if (M3 == true) {  //Nach betätigen von -S3 --> Laufband -M3 geht an
-    M3ok = true;     
-                     //Niedriger Füllstand -B15 betätigen --> -M3 aus siehe void lauflichtm3 ()//
+    M3ok = true;
+    //Niedriger Füllstand -B15 betätigen --> -M3 aus siehe void lauflichtm3 ()//
 
   } else {
-    M3ok = false;  
+    M3ok = false;
   }
 }
 
@@ -639,10 +639,9 @@ void lauflichtm3L() {
 
 
 void loop() {
-  if(analogRead(A5)> 900){
+  if (analogRead(A5) > 900) {
     Programmbypass = true;
-  }
-  else{
+  } else {
     Programmbypass = false;
   }
   if (Programmbypass == false) {
