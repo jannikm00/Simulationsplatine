@@ -2,8 +2,6 @@
 #define PIN A3
 #define NUMPIXELS 12
 Adafruit_NeoPixel led(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
-///Anpassbare Werte///
 int delayvalue = 100;       //Globaler Delay Wert
 int countr = 0;             //RGB Heizung wert Rot
 int countb = 200;           //RGB Heizung wert Blau
@@ -82,7 +80,7 @@ void Grundstellung() {  //Grundstellung Simulierte Sensoren
   sB12 = false;         //Druck vorhanden
   sB13 = false;         //Temperatur ok
   sB14 = false;         //Gebläse ok
-  sB15 = false;          //Füllstand niedrig
+  sB15 = false;         //Füllstand niedrig
   sB16 = false;         //CO-Meldung
   Relais_check();
   count++;
@@ -94,7 +92,6 @@ void Grundstellung() {  //Grundstellung Simulierte Sensoren
 
 
 void Bypass() {  //Programm überspringen wenn Programmbypass true ist
-  delay(delayvalue * 2);
   sB10 = true;   //Milch vorhanden
   sB11 = false;  //Füllstand hoch
   sB12 = false;  //Druck vorhanden
@@ -167,10 +164,26 @@ void Bypass() {  //Programm überspringen wenn Programmbypass true ist
   sB16 = true;  //CO-Meldung
   Relais_check();
   for (int i = 0; i <= 11; i++) {
+    led.setPixelColor(i, led.Color(255, 0, 0));
+    led.show();
+  }
+  delay(100);
+  for (int i = 0; i <= 11; i++) {
+    led.setPixelColor(i, led.Color(0, 255, 0));
+    led.show();
+  }
+  delay(100);
+  for (int i = 0; i <= 11; i++) {
+    led.setPixelColor(i, led.Color(0, 0, 255));
+    led.show();
+  }
+  delay(100);
+  for (int i = 0; i <= 11; i++) {
     led.setPixelColor(i, led.Color(255, 255, 255));
     led.show();
   }
-  Serial.print(analogRead(SimM1));
+  delay(100);
+  Anlage_ein = false;
 }
 
 
