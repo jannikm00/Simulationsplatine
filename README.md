@@ -1,5 +1,5 @@
 # Simulationsplatine
-[![Video](https://github.com/jannikm00/Simulationsplatine/assets/72359748/1d52b56f-8867-41db-9bf5-51e39f74ce0c)](https://teslamotorsinc-my.sharepoint.com/:v:/g/personal/jameiers_tesla_com/EWfWZ_1vczZIn2BTZ4c2_aIBz9P3oaltJH9rHhPaBXDcUQ?e=iOcd5x)
+https://teslamotorsinc-my.sharepoint.com/:v:/g/personal/jameiers_tesla_com/EWfWZ_1vczZIn2BTZ4c2_aIBz9P3oaltJH9rHhPaBXDcUQ?e=iOcd5x
 Nachfolgende Bilder sortiert alt zu neu:
 ![IMG_20230502_143259](https://user-images.githubusercontent.com/72359748/235667674-413427d6-76e5-45da-92e3-bc5e609134c4.jpg)
 ![IMG_20230502_143334](https://user-images.githubusercontent.com/72359748/235667682-f955ff6d-0cb8-44c8-9c63-67b8838b343b.jpg)
