@@ -217,7 +217,7 @@ void Bypass() {  //Programm überspringen wenn Programmbypass true ist
   }
   delay(100);
   Anlage_ein = false;
-  Serial.println("B Y P A S S"); 
+  Serial.println("B Y P A S S");
 }
 
 
@@ -484,7 +484,7 @@ void Motor_check() {  //Funktion: Übersetzung LEDs auf Platine -P10 --> -E1 ...
 
 
 void printstatus() {  //Funktion: Serieller Output für Debugging
-                      /* Serial.write("M1=");
+  Serial.write("M1=");
   Serial.print(M1ok);
   Serial.write("|M2=");
   Serial.print(M2ok);
@@ -493,8 +493,8 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   Serial.write("|M4=");
   Serial.print(M4ok);
   Serial.write("|E1=");
-  Serial.println(E1ok);
-
+  Serial.print(E1ok);
+  /*
   if (countfuellstand == 0) {
     Serial.print("Prozessabfolge mit entleertem Füllturm abgeschlossen!           ");
   } else {
@@ -502,7 +502,7 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   }
   Serial.write("Füllstand:");
   Serial.print(countfuellstand);*/
-  Serial.write("B10(Mvorhanden)=");
+  Serial.write("   B10(Mvorhanden)=");
   Serial.print(sB10);
   Serial.write(" |B11(Fhoch)=");
   Serial.print(sB11);
