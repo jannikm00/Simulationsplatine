@@ -1,3 +1,36 @@
+/*
+Simulations-Platine der AP Teil 1 Frühjahr 2022 Elektroniker für Betriebstechnik
+
+WICHTIG:
+Niemals mit angeschlossener 9V Batterie den Arduino mit einem PC verbinden
+Nicht Widerstände kurzschließen
+
+Pulldown Widerstände:
+Spannungsteiler mit R1 = 10kOhm, R2 = 2,6kOhm
+
+Bypass:
+Bypass Pin (A5) auf High bringen (Schalter umlegen)
+in void Bypass () gewünschte Sensorstellung, delay und was auch immer eingeben
+Das Programm wird nichts machen, nur void Bypass () wird laufen
+Will man nach Bypass Modus das normale Programm verwenden muss man Reset auf dem Arduino drücken
+und die -S1 an und wieder aus machen
+
+Programmablauf:
+-S1 betätigen
+Warten bis Heizung -E1 auf Temperatur
+-S2 betätigen
+Warten bis -M1 genug Druck aufgebaut hat
+Warten bis der Sprühturm gefüllt ist -Ventil -M4 offen
+-S3 betätigen
+Warten bis der Sprühturm leer ist Förderschnecke -M3 Rechtslauf
+(Optional: -S4 betätigen Förderschnecke -M3 Linkslauf)
+
+Programmablauf ende:
+Ist der Sprühturm entleert worden ist der Milchvorrat aufgebraucht, um ihn wieder zu befüllen 
+muss man -S1 an und wieder aus machen oder den Reset Knopf auf dem Arduino betätigen
+*/
+
+
 #include <Adafruit_NeoPixel.h>
 #define PIN A3
 #define NUMPIXELS 12
@@ -184,6 +217,7 @@ void Bypass() {  //Programm überspringen wenn Programmbypass true ist
   }
   delay(100);
   Anlage_ein = false;
+  Serial.println("B Y P A S S"); 
 }
 
 
