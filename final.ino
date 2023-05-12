@@ -390,7 +390,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
 
 
 
-void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais Q1, aktualisiert Relais
+void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais K3_1, aktualisiert Relais
   if (sB10 == false) {
     analogWrite(K3_1, 0);
 
