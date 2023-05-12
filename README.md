@@ -10,5 +10,8 @@ Nachfolgende Bilder sortiert alt zu neu:
 ![image](https://user-images.githubusercontent.com/72359748/236829058-6bd225ee-e96b-4f57-a808-cc4fbe53402e.jpeg)
 ![IMG_20230511_125253](https://github.com/jannikm00/Simulationsplatine/assets/72359748/2afc9e6a-0887-4590-9ea8-de0c5748f7e8)
 ![IMG_20230511_125351](https://github.com/jannikm00/Simulationsplatine/assets/72359748/0cfbd4b1-da22-404a-9e61-6422eb57880f)
-![IMG_20230511_125053](https://github.com/jannikm00/Simulationsplatine/assets/72359748/5c7e83d4-0176-4c5c-bc86-216e8e7915cd)
+![IMG_0291](https://github.com/jannikm00/Simulationsplatine/assets/72359748/e35d2b30-ecdc-422d-a4f6-166d372e4e4f)
+![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/7247600a-1264-4cb3-9854-6c6017ef8505)
+![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
+
 
