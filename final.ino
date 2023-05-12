@@ -76,13 +76,13 @@ bool E1ok;
 bool Anlageok;
 
 ///Output Pins
-int Q1 = 2;      // -B10 Output (NO)
-int Q2 = 3;      // -B11 Output (NO)
-int Q3 = 4;      // -B12 Output (NO)
-int Q4 = 5;      // -B13 Output (NO)
-int Q5 = 6;      // -B14 Output (NO)
-int Q6 = 7;      // -B15 Output (NO)
-int Q7 = A1;     // -B16 Output (NC)
+int K3_1 = 2;      // -B10 Output (NO)
+int K3_2 = 3;      // -B11 Output (NO)
+int K3_3 = 4;      // -B12 Output (NO)
+int K3_4 = 5;      // -B13 Output (NO)
+int K3_5 = 6;      // -B14 Output (NO)
+int K3_6 = 7;      // -B15 Output (NO)
+int K3_7 = A1;     // -B16 Output (NC)
 int SimM1 = A2;  // -M1 Simulierter Motor Output
 int SimM2 = A0;  // -M2 Simulierter Motor Output
 
@@ -392,51 +392,51 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
 
 void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais Q1, aktualisiert Relais
   if (sB10 == false) {
-    analogWrite(Q1, 0);
+    analogWrite(K3_1, 0);
 
   } else {
-    analogWrite(Q1, 1023);
+    analogWrite(K3_1, 1023);
   }
 
   if (sB11 == false) {
-    analogWrite(Q2, 0);
+    analogWrite(K3_2, 0);
 
   } else {
-    analogWrite(Q2, 1023);
+    analogWrite(K3_2, 1023);
   }
 
   if (sB12 == false) {
-    analogWrite(Q3, 0);
+    analogWrite(K3_3, 0);
   
   } else {
-    analogWrite(Q3, 1023);
+    analogWrite(K3_3, 1023);
   }
 
   if (sB13 == false) {
-    analogWrite(Q4, LOW);
+    analogWrite(K3_4, LOW);
 
   } else {
-    analogWrite(Q4, 1023);
+    analogWrite(K3_4, 1023);
   }
 
   if (sB14 == false) {
-    analogWrite(Q5, 0);
+    analogWrite(K3_5, 0);
 
   } else {
-    analogWrite(Q5, 1023);
+    analogWrite(K3_5, 1023);
   }
 
   if (sB15 == false) {
-    analogWrite(Q6, 0);
+    analogWrite(K3_6, 0);
 
   } else {
-    analogWrite(Q6, 1023);
+    analogWrite(K3_6, 1023);
   }
   if (sB16 == false) {
-    analogWrite(Q7, 0);
+    analogWrite(K3_7, 0);
 
   } else {
-    analogWrite(Q7, 1023);
+    analogWrite(K3_7, 1023);
   }
 }
 
