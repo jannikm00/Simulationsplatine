@@ -313,14 +313,14 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   sB14 = true;     //B14 betätigen Signal Gebläse ok -->Heizung -E1 an
   Relais_check();
 
-  if (E1 == true) {  //Heizung -E1 check
+  if (E1 == true) {  //Debugging
     E1ok = true;
 
   } else {
     E1ok = false;
   }
 
-  if (E1ok == true) {  //Heizung RGB wird von Blau zu rot (fade)
+  if (E1 == true) {  //Heizung RGB wird von Blau zu rot (fade)
 
     for (int i = 0; i < 200; i++) {
 
@@ -363,7 +363,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
   }
 
 
-  if (M4 == true) {  //M4 check
+  if (M4 == true) {  //Debugging
     M4ok = true;
     /*if (sB10 == true) {
       if (countvorrat >= 5) {
@@ -372,14 +372,14 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     }*/
   }
 
-  if (M3 == true) {  //Nach betätigen von -S3 --> Laufband -M3 geht an
+  if (M3 == true) {  //Debugging Nach betätigen von -S3 --> Laufband -M3 geht an
     M3ok = true;
     //Niedriger Füllstand -B15 betätigen --> -M3 aus siehe void lauflichtm3 ()//
   } else {
     M3ok = false;
   }
 
-  if (M3L == true) {
+  if (M3L == true) { //Debugging
     M3Lok = true;
   } else {
     M3ok = false;
@@ -543,13 +543,13 @@ void fuellstandm4() {                    //Funktion: Füllstand
       countfuellstand = countfuellstand + 0.10;
       delay(50);
 
-      if (countfuellstand >= 7.5) {  //Auffüllvorgang startbar machen Füllstand hoch und niedrig ??
+      if (countfuellstand >= 7.5) {  //Abfüllvorgang startbar machen Füllstand hoch B11 und B15 überschritten
         sB11 = true;
         Relais_check();
         sB15 = true;
         Relais_check();
 
-      } else if (countfuellstand <= 5) {  //Abfüllvorgang stoppen Füllstand nicht niedrig und nicht hoch ??
+      } else if (countfuellstand <= 5) {  //Abfüllvorgang stoppen Füllstand sB15 und sB11 unterschritten
         sB11 = false;
         Relais_check();
         sB15 = false;  //"
@@ -582,13 +582,13 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
       }
       pegelupdate();
 
-      if (countfuellstand >= 7.5) {  //Abfüllvorgang startbar machen Füllstand hoch und niedrig ??
+      if (countfuellstand >= 7.5) {  //Abfüllvorgang startbar machen Füllstand hoch B11 und B15 überschritten
         sB11 = true;
         Relais_check();
         sB15 = true;
         Relais_check();
 
-      } else if (countfuellstand <= 5.5) {  //Abfüllvorgang stoppen Füllstand nicht niedrig und nicht hoch ??
+      } else if (countfuellstand <= 5.5) {  //Abfüllvorgang stoppen Füllstand sB15 und sB11 unterschritten
         sB15 = false;                       //Füllstand niedrig aus
         Relais_check();
       }
@@ -613,7 +613,7 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
     }
     /*Serial.write("Ventil:");
     Serial.print(countventil);*/
-    if (countventil > ventilgruen) {
+    if (countventil > ventilgruen) { //Genug Druck --> LED Grün, B12 an
       led.setPixelColor(10, led.Color(0, 255, 0));
       led.show();
       sB12 = true;
@@ -621,7 +621,7 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
     }
 
   } else {
-    led.setPixelColor(10, led.Color(255, 0, 0));
+    led.setPixelColor(10, led.Color(255, 0, 0)); //Zu wenig Druck --> LED Rot
     led.show();
     //sB12 = false;
     Relais_check();
@@ -634,7 +634,6 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
 
 void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
   if (M4 == true && countventil >= 5) {
-
     if (countvorrat < 5) {
       countvorrat = countvorrat + 0.12;
     }
@@ -677,7 +676,7 @@ void blink() {  //Funktion: Blinken bei Füllstand unter 2
 
 
 
-void lauflichtm3L() {
+void lauflichtm3L() { //Funktion: -M3 Linkslauf animation
   if (M3L == true) {
 
     for (int i = 4; i >= 0; i--) {
@@ -696,7 +695,7 @@ void lauflichtm3L() {
 
 
 void loop() {
-  if (analogRead(A5) > 900) {
+  if (analogRead(A5) > 900) { //Bypass Schalter
     Programmbypass = true;
   } else {
     Programmbypass = false;
@@ -704,7 +703,6 @@ void loop() {
   if (Programmbypass == false) {
     Motor_check();       //Motoren Abfrage für Anlage_ein
     Anlage_ein_check();  //Check ob -M2 an ist
-
     if (Anlage_ein == true) {
       Motor_check();   //Motorenabfrage für Hauptprogramm
       Programm();      //Hauptprogramm
@@ -720,7 +718,7 @@ void loop() {
       end();  //Reset
     }
 
-  } else if (Programmbypass == true) {
+  } else if (Programmbypass == true) { //Bypass Programm
     Bypass();
   }
 }
