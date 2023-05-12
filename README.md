@@ -1,7 +1,7 @@
 # Simulationsplatine
 [Video](https://teslamotorsinc-my.sharepoint.com/:v:/g/personal/jameiers_tesla_com/EWfWZ_1vczZIn2BTZ4c2_aIBz9P3oaltJH9rHhPaBXDcUQ?e=iOcd5x)
 
-![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/7247600a-1264-4cb3-9854-6c6017ef8505)
+![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
 
 Simulations-Platine der AP Teil 1 Frühjahr 2022 Elektroniker für Betriebstechnik
