@@ -4,37 +4,6 @@
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
 
-Simulations-Platine der AP Teil 1 Frühjahr 2022 Elektroniker für Betriebstechnik
-
-WICHTIG:
-Niemals mit angeschlossener 9V Batterie den Arduino mit einem PC verbinden
-Nicht Widerstände kurzschließen
-
-Pulldown Widerstände:
-Spannungsteiler mit R1 = 10kOhm, R2 = 2,6kOhm
-
-Bypass:
-Bypass Pin (A5) auf High bringen (Schalter umlegen)
-in void Bypass () gewünschte Sensorstellung, delay und was auch immer eingeben
-Das Programm wird nichts machen, nur void Bypass () wird laufen
-Will man nach Bypass Modus das normale Programm verwenden muss man Reset auf dem Arduino drücken
-und die -S1 an und wieder aus machen
-
-Programmablauf:
--S1 betätigen
-Warten bis Heizung -E1 auf Temperatur
--S2 betätigen
-Warten bis -M1 genug Druck aufgebaut hat
-Warten bis der Sprühturm gefüllt ist -Ventil -M4 offen
--S3 betätigen
-Warten bis der Sprühturm leer ist Förderschnecke -M3 Rechtslauf
-(Optional: -S4 betätigen Förderschnecke -M3 Linkslauf)
-
-Programmablauf ende:
-Ist der Sprühturm entleert worden ist der Milchvorrat aufgebraucht, um ihn wieder zu befüllen 
-muss man -S1 an und wieder aus machen oder den Reset Knopf auf dem Arduino betätigen
-
-
 Nachfolgende Bilder sortiert alt zu neu:
 ![IMG_20230502_143259](https://user-images.githubusercontent.com/72359748/235667674-413427d6-76e5-45da-92e3-bc5e609134c4.jpg)
 ![IMG_20230502_143334](https://user-images.githubusercontent.com/72359748/235667682-f955ff6d-0cb8-44c8-9c63-67b8838b343b.jpg)
