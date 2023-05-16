@@ -35,7 +35,7 @@ Video:
 3D-Modelle:
 [Propeller](https://www.thingiverse.com/thing:5759720),
 [Heizung](https://www.thingiverse.com/thing:5759743),
-[Pumpe](https://www.thingiverse.com/thing:4839) und
+[Pumpe](https://www.thingiverse.com/thing:1045003) und
 [Motorkasten](https://www.thingiverse.com/thing:6028704)
 
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
