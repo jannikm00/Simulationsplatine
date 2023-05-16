@@ -31,6 +31,11 @@ muss man -S1 an und wieder aus machen oder den Reset Knopf auf dem Arduino betä
 
 [Video](https://teslamotorsinc-my.sharepoint.com/:v:/g/personal/jameiers_tesla_com/EWfWZ_1vczZIn2BTZ4c2_aIBz9P3oaltJH9rHhPaBXDcUQ?e=iOcd5x)
 
+3D-Modelle:
+[Propeller](https://www.thingiverse.com/thing:5759720)
+[Heizung](https://www.thingiverse.com/thing:5759743)
+[Pumpe](https://www.thingiverse.com/thing:4839)
+
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
 
