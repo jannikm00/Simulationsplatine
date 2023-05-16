@@ -34,7 +34,8 @@ muss man -S1 an und wieder aus machen oder den Reset Knopf auf dem Arduino betä
 3D-Modelle:
 [Propeller](https://www.thingiverse.com/thing:5759720),
 [Heizung](https://www.thingiverse.com/thing:5759743),
-[Pumpe](https://www.thingiverse.com/thing:4839)
+[Pumpe](https://www.thingiverse.com/thing:4839) und
+[Motorkasten](https://www.thingiverse.com/thing:6028704)
 
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
