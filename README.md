@@ -30,7 +30,7 @@ Ist der Sprühturm entleert worden ist der Milchvorrat aufgebraucht, um ihn wied
 muss man -S1 an und wieder aus machen oder den Reset Knopf auf dem Arduino betätigen
 
 Video:
-[OneDrive](https://teslamotorsinc-my.sharepoint.com/:v:/g/personal/jameiers_tesla_com/EWfWZ_1vczZIn2BTZ4c2_aIBz9P3oaltJH9rHhPaBXDcUQ?e=iOcd5x)
+[Youtube](https://www.youtube.com/shorts/GwFtLFMLBFg)
 
 3D-Modelle:
 [Propeller](https://www.thingiverse.com/thing:5759720),
