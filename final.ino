@@ -76,13 +76,13 @@ bool E1ok;
 bool Anlageok;
 
 ///Output Pins
-int K3_1 = 2;      // -B10 Output (NO)
-int K3_2 = 3;      // -B11 Output (NO)
-int K3_3 = 4;      // -B12 Output (NO)
-int K3_4 = 5;      // -B13 Output (NO)
-int K3_5 = 6;      // -B14 Output (NO)
-int K3_6 = 7;      // -B15 Output (NO)
-int K3_7 = A1;     // -B16 Output (NC)
+int K3_1 = 2;    // -B10 Output (NO)
+int K3_2 = 3;    // -B11 Output (NO)
+int K3_3 = 4;    // -B12 Output (NO)
+int K3_4 = 5;    // -B13 Output (NO)
+int K3_5 = 6;    // -B14 Output (NO)
+int K3_6 = 7;    // -B15 Output (NO)
+int K3_7 = A1;   // -B16 Output (NC)
 int SimM1 = A2;  // -M1 Simulierter Motor Output
 int SimM2 = A0;  // -M2 Simulierter Motor Output
 
@@ -126,6 +126,8 @@ void Grundstellung() {  //Grundstellung Simulierte Sensoren
 
 
 void Bypass() {  //Programm überspringen wenn Programmbypass true ist
+  analogWrite(SimM1, 1023);
+  analogWrite(SimM2, 1023);
   sB10 = true;   //Milch vorhanden
   sB11 = false;  //Füllstand hoch
   sB12 = false;  //Druck vorhanden
@@ -379,7 +381,7 @@ void Programm() {  //Funktion: Programm bis auf Füllstand hoch und niedrig in v
     M3ok = false;
   }
 
-  if (M3L == true) { //Debugging
+  if (M3L == true) {  //Debugging
     M3Lok = true;
   } else {
     M3ok = false;
@@ -407,7 +409,7 @@ void Relais_check() {  //Funktion: Übersetzung Schalter B10 --> Relais K3_1, ak
 
   if (sB12 == false) {
     analogWrite(K3_3, 0);
-  
+
   } else {
     analogWrite(K3_3, 1023);
   }
@@ -492,7 +494,7 @@ void Motor_check() {  //Funktion: Übersetzung LEDs auf Platine -P10 --> -E1 ...
 
 
 void printstatus() {  //Funktion: Serieller Output für Debugging
-  Serial.write("M1=");
+ /*Serial.write("M1=");
   Serial.print(M1ok);
   Serial.write("|M2=");
   Serial.print(M2ok);
@@ -503,16 +505,8 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   Serial.write("|M4=");
   Serial.print(M4ok);
   Serial.write("|E1=");
-  Serial.print(E1ok);
-  /*
-  if (countfuellstand == 0) {
-    Serial.print("Prozessabfolge mit entleertem Füllturm abgeschlossen!           ");
-  } else {
-    Serial.print("Prozessabfolge abgeschlossen!                                   ");
-  }
-  Serial.write("Füllstand:");
-  Serial.print(countfuellstand);*/
-  Serial.write("   B10(Mvorhanden)=");
+  Serial.print(E1ok);*/
+  Serial.write(" B10(Mvorhanden)=");
   Serial.print(sB10);
   Serial.write(" |B11(Fhoch)=");
   Serial.print(sB11);
@@ -525,7 +519,11 @@ void printstatus() {  //Funktion: Serieller Output für Debugging
   Serial.write(" |B15(Fniedrig)=");
   Serial.print(sB15);
   Serial.write(" |B16(CO)=");
-  Serial.println(sB16);
+  Serial.print(sB16);
+  Serial.print(" |Füllstand:");
+  Serial.print(countfuellstand - 5);
+  Serial.print(" |Vorrat:");
+  Serial.println(5 - countvorrat);
 }
 
 
@@ -548,6 +546,9 @@ void fuellstandm4() {                    //Funktion: Füllstand
         Relais_check();
         sB15 = true;
         Relais_check();
+        if (countfuellstand > 9.1) {
+          countfuellstand = 10;
+        }
 
       } else if (countfuellstand <= 5) {  //Abfüllvorgang stoppen Füllstand sB15 und sB11 unterschritten
         sB11 = false;
@@ -557,9 +558,8 @@ void fuellstandm4() {                    //Funktion: Füllstand
       }
     }
   }
-  /*Serial.print("  |  Füllstand:");
-  Serial.println(countfuellstand - 5);*/
 }
+
 
 
 
@@ -577,7 +577,7 @@ void lauflichtm3() {  //Funktion: Förderschnecke Animation -M3
       led.show();
       delay(100);
 
-      if (countfuellstand > 5.3) {
+      if (countfuellstand > 5) {
         countfuellstand = countfuellstand - 0.10;  //0.2 = Schnelligkeit Entleerung
       }
       pegelupdate();
@@ -613,7 +613,7 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
     }
     /*Serial.write("Ventil:");
     Serial.print(countventil);*/
-    if (countventil > ventilgruen) { //Genug Druck --> LED Grün, B12 an
+    if (countventil > ventilgruen) {  //Genug Druck --> LED Grün, B12 an
       led.setPixelColor(10, led.Color(0, 255, 0));
       led.show();
       sB12 = true;
@@ -621,7 +621,7 @@ void ventilm1() {  //Funktion: Druckaufbau bei M1 an
     }
 
   } else {
-    led.setPixelColor(10, led.Color(255, 0, 0)); //Zu wenig Druck --> LED Rot
+    led.setPixelColor(10, led.Color(255, 0, 0));  //Zu wenig Druck --> LED Rot
     led.show();
     //sB12 = false;
     Relais_check();
@@ -642,13 +642,12 @@ void vorrat() {  //Funktion: Milchvorrat senken bei M4 an
   if (countvorrat > 4.80) {
     sB10 = false;
     Relais_check();
+    countvorrat = 5;
 
   } else {
     sB10 = true;
     Relais_check();
   }
-  /* Serial.write("|     Vorrat:");
-  Serial.print(countvorrat);*/
 }
 
 
@@ -676,7 +675,7 @@ void blink() {  //Funktion: Blinken bei Füllstand unter 2
 
 
 
-void lauflichtm3L() { //Funktion: -M3 Linkslauf animation
+void lauflichtm3L() {  //Funktion: -M3 Linkslauf animation
   if (M3L == true) {
 
     for (int i = 4; i >= 0; i--) {
@@ -695,7 +694,7 @@ void lauflichtm3L() { //Funktion: -M3 Linkslauf animation
 
 
 void loop() {
-  if (analogRead(A5) > 900) { //Bypass Schalter
+  if (analogRead(A5) > 900) {  //Bypass Schalter
     Programmbypass = true;
   } else {
     Programmbypass = false;
@@ -718,7 +717,7 @@ void loop() {
       end();  //Reset
     }
 
-  } else if (Programmbypass == true) { //Bypass Programm
+  } else if (Programmbypass == true) {  //Bypass Programm
     Bypass();
   }
 }
