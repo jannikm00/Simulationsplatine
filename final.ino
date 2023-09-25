@@ -304,6 +304,12 @@ void end() {  //Funktion: Reset bei Anlage aus
     } else {
       analogWrite(SimM1, 0);
     }
+
+    if (M2 == true) {  //M2 Simulation
+      analogWrite(SimM2, 1023);
+
+    } else {
+      analogWrite(SimM2, 0);
   }
 }
 
