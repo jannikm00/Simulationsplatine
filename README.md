@@ -37,11 +37,16 @@ Video:
 [Heizung](https://www.thingiverse.com/thing:5759743),
 [Pumpe](https://www.thingiverse.com/thing:1045003) und
 [Motorkasten](https://www.thingiverse.com/thing:6028704)
-[simulationsplatine.pdf](https://github.com/jannikm00/Simulationsplatine/files/13239139/simulationsplatine.pdf)
+
+![simulationsplatine-1](https://github.com/jannikm00/Simulationsplatine/assets/72359748/a6111278-5352-410b-a640-0d669bc0cccd)
+![simulationsplatine-2](https://github.com/jannikm00/Simulationsplatine/assets/72359748/af946f0b-1c59-4bb1-91e8-3118eea84a6b)
+![simulationsplatine-3](https://github.com/jannikm00/Simulationsplatine/assets/72359748/67e134e4-173d-4697-a63e-ac77a48a0314)
+![simulationsplatine-4](https://github.com/jannikm00/Simulationsplatine/assets/72359748/4c7b6bb0-a935-4775-af69-0c3818892e8a)
+![simulationsplatine-5](https://github.com/jannikm00/Simulationsplatine/assets/72359748/3acb1029-d664-47ce-9e06-05edfb09ce90)
+![simulationsplatine-6](https://github.com/jannikm00/Simulationsplatine/assets/72359748/c99b9c63-fa8f-43f1-8caa-ae05a726fa7a)
+![simulationsplatine-7](https://github.com/jannikm00/Simulationsplatine/assets/72359748/d9b07b1d-4720-4f11-952e-8ef7593f69df)
 
 
-![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
-![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
 
 Nachfolgende Bilder sortiert alt zu neu:
 ![IMG_20230502_143259](https://user-images.githubusercontent.com/72359748/235667674-413427d6-76e5-45da-92e3-bc5e609134c4.jpg)
