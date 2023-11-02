@@ -37,6 +37,8 @@ Video:
 [Heizung](https://www.thingiverse.com/thing:5759743),
 [Pumpe](https://www.thingiverse.com/thing:1045003) und
 [Motorkasten](https://www.thingiverse.com/thing:6028704)
+[simulationsplatine.pdf](https://github.com/jannikm00/Simulationsplatine/files/13239139/simulationsplatine.pdf)
+
 
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/ee48bddd-4f4d-479e-a79b-93b71e543304)
 ![image](https://github.com/jannikm00/Simulationsplatine/assets/72359748/48ea0c0c-f4d4-462e-9f71-ff79296fa3b2)
